@@ -172,13 +172,13 @@ sub rfcmd_exec {
     my $code;
 
     if ($device_cfg[$device_id][0] eq "SARTANO") {
-    $rfsend = $RFCMD; 
-	$RFCMD_OPTIONS = "$TELLSTICK_DEVICE $device_cfg[$device_id][0] $device_cfg[$device_id][1]";
-    }
+	    $rfsend = $RFCMD; 
+		$RFCMD_OPTIONS = "$TELLSTICK_DEVICE $device_cfg[$device_id][0] $device_cfg[$device_id][1]";
+	    }
     elsif ($device_cfg[$device_id][0] eq "NEXA" || $device_cfg[$device_id][0] eq "WAVEMAN") {
-    $rfsend = $RFCMD; 
-    $RFCMD_OPTIONS = "$TELLSTICK_DEVICE $device_cfg[$device_id][0] $device_cfg[$device_id][1] $device_cfg[$device_id][2]";
-    }
+	    $rfsend = $RFCMD; 
+	    $RFCMD_OPTIONS = "$TELLSTICK_DEVICE $device_cfg[$device_id][0] $device_cfg[$device_id][1] $device_cfg[$device_id][2]";
+	    }
     elsif ($device_cfg[$device_id][0] eq "RPICS") {
         $rfsend = $CODESEND; 
 		 use Switch;
@@ -281,10 +281,10 @@ sub rfcmd_exec {
 		 	}
 		 	case "P3" {
 		 		if ($action==0){
-					$code = "";
+					$code = "5574676";
 		 		}
 		 		else {
-					$code = "";
+					$code = "5574677";
 		 		}
 		 	}
 		 	else{
@@ -292,24 +292,16 @@ sub rfcmd_exec {
 		 	
 		 	}
 		 }
-        printf ("Code: ".$code."\n");
+        #printf ("Code: ".$code."\n");
          
-	    #0=prot, 1=house, 2=channel
-		#$RFCMD_OPTIONS = "$TELLSTICK_DEVICE $device_cfg[$device_id][0] $device_cfg[$device_id][1] $device_cfg[$device_id][2]";
 		$RFCMD_OPTIONS = "$code";
 		
-		printf ("Options: ".$RFCMD_OPTIONS."\n");
+		#printf ("Options: ".$RFCMD_OPTIONS."\n");
 		
 		
 		#printf ("C2?");
 		#printf ($device_cfg[$device_id][1]);
 		#printf ($device_cfg[$device_id][2]);
-		
-		#if ($device_cfg[$device_id][1] == "C" && $device_cfg[$device_id][2] == 2) {
-		#if (($device_cfg[$device_id][1] eq "C") && ($device_cfg[$device_id][2] eq "2")){
-	
-		
-		#printf("RPICS");
     }   
     else {
 	die("$PROGRAM_NAME: Device $device_id has an unknown protocol. Only NEXA, WAVEMAN, SARTANO and RPICS allowed.\n");
@@ -320,7 +312,7 @@ sub rfcmd_exec {
     if ($action == 1) {
 	# Only turn the device on if it is not already turned on to avoid flashing dimmers.
 	# and check that it is not disabled by on/off time set to -1 in the config file
-	printf("Run: ".$RFCMD."-".$RFCMD_OPTIONS."\n");
+	# printf("Run: ".$RFCMD."-".$RFCMD_OPTIONS."\n");
 	if ($device_cfg[$device_id][22] == 0  && $device_cfg[$device_id][23] != -1) {
 	    printf("$PROGRAM_NAME: Time is $current_time. Switching on $device_cfg[$device_id][0] device $device_cfg[$device_id][1]$device_cfg[$device_id][2].\n");
 	    printf("$rfsend $RFCMD_OPTIONS\n");
