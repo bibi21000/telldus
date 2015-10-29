@@ -1,3 +1,11 @@
+# Original code from Telldus, https://github.com/telldus
+# This version adds support for Raspberry Pi as a transmitter, hardware as of http://www.homautomation.org/2014/03/02/433mhtz-rf-communication-between-arduino-and-raspberry-pi-arduino-as-receiver/
+
+# Original code supports controlling NEXA, WAVEMAN and SARTANO devices via a Tellstick USB-dongle.
+# Here we add support for the protocol "RPICS". 
+# my $CODESEND=""; = Path to the codesend command
+
+
 #!/usr/bin/perl
 
 use POSIX;
@@ -12,6 +20,8 @@ my $LATITUDE = "65.603";    # 65.603N 22.18W -> Luleå, Sweden
 my $LONGITUDE = "22.18";
 my $TIMEZONE = "Europe/Stockholm";
 my $RFCMD = "/usr/local/bin/rfcmd";
+my $CODESEND="/usr/local/bin/codesend";
+my $rfsend;
 my $TELLSTICK_DEVICE = "/dev/tellstick";
 my $CONFIG_FILE = "/etc/tellstickd.conf";
 my $LOG_FILE = "/var/log/tellstickd";
@@ -19,6 +29,11 @@ my $pidFile = '/var/run/tellstickd.pid';
 
 
 # You should not need to go beyond this point (unless you have found a bug or need to improve the functionality).
+
+# Nexa codes
+my $c2on = 1064981;
+my $c2off = 1064980;
+
 my @months = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
 my @weekDays = qw(Sun Mon Tue Wed Thu Fri Sat Sun);
 my $NO = 0;
@@ -154,15 +169,150 @@ sub rfcmd_exec {
     my $device_id = $_[0];
     my $action = $_[1];
     my $RFCMD_OPTIONS;
+    my $code;
 
     if ($device_cfg[$device_id][0] eq "SARTANO") {
+    $rfsend = $RFCMD; 
 	$RFCMD_OPTIONS = "$TELLSTICK_DEVICE $device_cfg[$device_id][0] $device_cfg[$device_id][1]";
     }
     elsif ($device_cfg[$device_id][0] eq "NEXA" || $device_cfg[$device_id][0] eq "WAVEMAN") {
-	$RFCMD_OPTIONS = "$TELLSTICK_DEVICE $device_cfg[$device_id][0] $device_cfg[$device_id][1] $device_cfg[$device_id][2]";
+    $rfsend = $RFCMD; 
+    $RFCMD_OPTIONS = "$TELLSTICK_DEVICE $device_cfg[$device_id][0] $device_cfg[$device_id][1] $device_cfg[$device_id][2]";
     }
+    elsif ($device_cfg[$device_id][0] eq "RPICS") {
+        $rfsend = $CODESEND; 
+		 use Switch;
+		 switch ($device_cfg[$device_id][1]) {
+		 	case "A1" {
+		 		if ($action==0){
+					$code = "20";
+		 		}
+		 		else {
+					$code = "21";
+		 		}
+		 	}
+		 	case "A2" {
+		 		if ($action==0){
+					$code = "16404";
+		 		}
+		 		else {
+					$code = "16405";
+		 		}
+		 	}
+		 	case "A3" {
+		 		if ($action==0){
+					$code = "4116";
+		 		}
+		 		else {
+					$code = "4117";
+		 		}
+		 	}
+		 	case "B1" {
+		 		if ($action==0){
+					$code = "4194324";
+		 		}
+		 		else {
+					$code = "4194325";
+		 		}
+		 	}
+		 	case "B2" {
+		 		if ($action==0){
+					$code = "4210708";
+		 		}
+		 		else {
+					$code = "4210709";
+		 		}
+		 	}
+		 	case "B3" {
+		 		if ($action==0){
+					$code = "4198420";
+		 		}
+		 		else {
+					$code = "4198421";
+		 		}
+		 	}
+		 	case "C1" {
+		 		if ($action==0){
+					$code = "1048596";
+		 		}
+		 		else {
+					$code = "1048597";
+		 		}
+		 	}
+		 	case "C2" {
+		 		if ($action==0){
+					$code = "1064980";
+		 		}
+		 		else {
+					$code = "1064981";
+		 		}
+		 	}
+		  	case "C3" {
+		 		if ($action==0){
+					$code = "1052692";
+		 		}
+		 		else {
+					$code = "1052693";
+		 		}
+		 	}
+		 	case "D1" {
+		 		if ($action==0){
+					$code = "5242900";
+		 		}
+		 		else {
+					$code = "5242901";
+		 		}
+		 	}
+		 	case "D2" {
+		 		if ($action==0){
+					$code = "5259284";
+		 		}
+		 		else {
+					$code = "5259285";
+		 		}
+		 	}
+		 	case "D3" {
+		 		if ($action==0){
+					$code = "5246996";
+		 		}
+		 		else {
+					$code = "5246997";
+		 		}
+		 	}
+		 	case "P3" {
+		 		if ($action==0){
+					$code = "";
+		 		}
+		 		else {
+					$code = "";
+		 		}
+		 	}
+		 	else{
+		 	     die("Unknown device, check your config.\n");
+		 	
+		 	}
+		 }
+        printf ("Code: ".$code."\n");
+         
+	    #0=prot, 1=house, 2=channel
+		#$RFCMD_OPTIONS = "$TELLSTICK_DEVICE $device_cfg[$device_id][0] $device_cfg[$device_id][1] $device_cfg[$device_id][2]";
+		$RFCMD_OPTIONS = "$code";
+		
+		printf ("Options: ".$RFCMD_OPTIONS."\n");
+		
+		
+		#printf ("C2?");
+		#printf ($device_cfg[$device_id][1]);
+		#printf ($device_cfg[$device_id][2]);
+		
+		#if ($device_cfg[$device_id][1] == "C" && $device_cfg[$device_id][2] == 2) {
+		#if (($device_cfg[$device_id][1] eq "C") && ($device_cfg[$device_id][2] eq "2")){
+	
+		
+		#printf("RPICS");
+    }   
     else {
-	die("$PROGRAM_NAME: Device $device_id has an unknown protocol. Only NEXA, WAVEMAN and SARTANO allowed.\n");
+	die("$PROGRAM_NAME: Device $device_id has an unknown protocol. Only NEXA, WAVEMAN, SARTANO and RPICS allowed.\n");
     }
 
 
@@ -170,10 +320,12 @@ sub rfcmd_exec {
     if ($action == 1) {
 	# Only turn the device on if it is not already turned on to avoid flashing dimmers.
 	# and check that it is not disabled by on/off time set to -1 in the config file
+	printf("Run: ".$RFCMD."-".$RFCMD_OPTIONS."\n");
 	if ($device_cfg[$device_id][22] == 0  && $device_cfg[$device_id][23] != -1) {
 	    printf("$PROGRAM_NAME: Time is $current_time. Switching on $device_cfg[$device_id][0] device $device_cfg[$device_id][1]$device_cfg[$device_id][2].\n");
+	    printf("$rfsend $RFCMD_OPTIONS\n");
 	    if ($simulate == $NO) {
-		`$RFCMD $RFCMD_OPTIONS 1`;
+		`$rfsend $RFCMD_OPTIONS 1`;
 	    }
 	    $device_cfg[$device_id][22] = 1;
 
@@ -187,7 +339,7 @@ sub rfcmd_exec {
 	if ($device_cfg[$device_id][22] == 1  && $device_cfg[$device_id][24] != -1) {
 	    printf("$PROGRAM_NAME: Time is $current_time. Switching off $device_cfg[$device_id][0] device $device_cfg[$device_id][1]$device_cfg[$device_id][2].\n");
 	    if ($simulate == $NO) {
-		`$RFCMD $RFCMD_OPTIONS 0`;
+		`$rfsend $RFCMD_OPTIONS 0`;
 	    }
 	    $device_cfg[$device_id][22] = 0;
 
@@ -414,7 +566,7 @@ sub read_config
 	}
 
 
-	if ($_ =~ /^[NEXA|WAVEMAN|SARTANO]/ ) {
+	if ($_ =~ /^[NEXA|WAVEMAN|SARTANO|RPICS]/ ) {
 	    chomp($_);
 
 	    @inrad = split /\s+/, $_;
@@ -426,6 +578,9 @@ sub read_config
 
 	    if ($device_cfg[$i][0] eq "SARTANO") {
 		$device_cfg[$i][2] = "";
+	    }
+	    elsif ($device_cfg[$i][0] eq "RPICS") {
+		$device_cfg[$i][1] = $inrad[1];
 	    }
 	    elsif ($device_cfg[$i][0] eq "NEXA" || $device_cfg[$i][0] eq "WAVEMAN") {
 		# Put the housecode and channel in the respective fields.
