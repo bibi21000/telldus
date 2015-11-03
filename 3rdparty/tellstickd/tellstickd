@@ -1,3 +1,5 @@
+#!/usr/bin/perl
+
 # Original code from Telldus, https://github.com/telldus
 # This version adds support for Raspberry Pi as a transmitter, hardware as of http://www.homautomation.org/2014/03/02/433mhtz-rf-communication-between-arduino-and-raspberry-pi-arduino-as-receiver/
 
@@ -7,7 +9,6 @@
 
 # TODO: Support for Waveman + Risingsun
 
-#!/usr/bin/perl
 
 use POSIX;
 use DateTime;
