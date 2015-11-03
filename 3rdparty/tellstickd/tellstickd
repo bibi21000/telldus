@@ -188,283 +188,79 @@ sub rfcmd_exec {
 	    }
     elsif ($device_cfg[$device_id][0] eq "RPICSN" || $device_cfg[$device_id][0] eq "RPICSE") {
     	# Nexa/Ever with codesend
-    	printf ("RPICSx: $device_cfg[$device_id][0]\n");
-        $rfsend = $CODESEND; 
-        
-        
+    	#printf ("RPICSx: $device_cfg[$device_id][0]\n");
+        $rfsend = $CODESEND;       
+        printf ("rfsend=$rfsend\n");
         # Find code to use
        	# Find code in codelist
-		my $tempcode ="";
+		my $offcode ="";
+		my $oncode ="";
+		# Loop through code list
 		for (my $k=0; $k <= $j; $k++) {
 			my $test = $codes[$k][0] . " " . $codes[$k][1];
 			#printf("$test - test!\n");
-			#printf("Device: $device_cfg[$device_id][0] $device_cfg[$device_id][1]");
+			#printf("Device: $device_cfg[$device_id][0] $device_cfg[$device_id][1]\n");
 			
 			my $currentdev = $device_cfg[$device_id][0]. " " . $device_cfg[$device_id][1];
 			#printf("Current dev: $currentdev\n");
 			
 			if ($test eq "$device_cfg[$device_id][0] $device_cfg[$device_id][1]") {
-				$tempcode = $codes[$k][2];
-				#printf("$k - Match!\n");
-			}
-		}
-		#printf("Tempcode: $tempcode\n");
-	
-	
-        
-		 use Switch;
-		 switch ($device_cfg[$device_id][1]) {
-		 	case "A1" {
-		 		if ($action==0){
-					$code = "20";
-		 		}
-		 		else {
-					$code = "21";
-		 		}
-		 	}
-		 	case "A2" {
-		 		if ($action==0){
-					$code = "16404";
-		 		}
-		 		else {
-					$code = "16405";
-		 		}
-		 	}
-		 	case "A3" {
-		 		if ($action==0){
-					$code = "4116";
-		 		}
-		 		else {
-					$code = "4117";
-		 		}
-		 	}
-		 	case "B1" {
-		 		if ($action==0){
-					$code = "4194324";
-		 		}
-		 		else {
-					$code = "4194325";
-		 		}
-		 	}
-		 	case "B2" {
-		 		if ($action==0){
-					$code = "4210708";
-		 		}
-		 		else {
-					$code = "4210709";
-		 		}
-		 	}
-		 	case "B3" {
-		 		if ($action==0){
-					$code = "4198420";
-		 		}
-		 		else {
-					$code = "4198421";
-		 		}
-		 	}
-		 	case "C1" {
-		 		if ($action==0){
-					$code = "1048596";
-		 		}
-		 		else {
-					$code = "1048597";
-		 		}
-		 	}
-		 	case "C2" {
-		 		if ($action==0){
-					$code = "1064980";
-		 		}
-		 		else {
-					$code = "1064981";
-		 		}
-		 	}
-		  	case "C3" {
-		 		if ($action==0){
-					$code = "1052692";
-		 		}
-		 		else {
-					$code = "1052693";
-		 		}
-		 	}
-		 	case "D1" {
-		 		if ($action==0){
-					$code = "5242900";
-		 		}
-		 		else {
-					$code = "5242901";
-		 		}
-		 	}
-		 	case "D2" {
-		 		if ($action==0){
-					$code = "5259284";
-		 		}
-		 		else {
-					$code = "5259285";
-		 		}
-		 	}
-		 	case "D3" {
-		 		if ($action==0){
-					$code = "5246996";
-		 		}
-		 		else {
-					$code = "5246997";
-		 		}
-		 	}
-			case "P1" {
-		 		if ($action==0){
-					$code = "5570580";
-		 		}
-		 		else {
-					$code = "5570581";
-		 		}
-		 	}	 	
-		 	case "P2" {
-		 		if ($action==0){
-					$code = "5586964";
-		 		}
-		 		else {
-					$code = "5586965";
-		 		}
-		 	}
-		 	case "P3" {
-		 		if ($action==0){
-					$code = "5574676";
-		 		}
-		 		else {
-					$code = "5574677";
-		 		}
-		 	}
-		 elsif ($device_cfg[$device_id][0] eq "RPICSE") {
-    		# Everflourish with codesend
-    		printf ("Everflourish\n");
-        	$rfsend = $CODESEND; 
-		 	use Switch;
-		 	switch ($device_cfg[$device_id][1]) {
-		 		case "A1" {
-		 			if ($action==0){
-						$code = "1381716";
-		 			}
-		 			else {
-						$code = "1381719";
-		 			}
-		 		}
-		 		case "A2" {
-		 			if ($action==0){
-						$code = "1394004";
-		 			}
-		 			else {
-						$code = "1394007";
-		 			}
-		 		}
-		 		case "A3" {
-		 			if ($action==0){
-						$code = "1397076";
-		 			}
-		 			else {
-						$code = "1397079";
-		 			}
-		 		}
-		 		case "B1" {
-		 			if ($action==0){
-						$code = "4527444";
-		 			}
-		 			else {
-						$code = "4527447";
-		 			}
-		 		}		 
-		 		case "B2" {
-		 			if ($action==0){
-						$code = "4539732";
-		 			}
-		 			else {
-						$code = "4539735";
-		 			}
-		 		}
-		 		case "B3" {
-		 			if ($action==0){
-						$code = "4542804";
-		 			}
-		 			else {
-						$code = "4542807";
-		 			}
-		 		}		
-		 		case "C1" {
-		 			if ($action==0){
-						$code = "";
-		 			}
-		 			else {
-						$code = "";
-		 			}
-		 		}
-		  		case "C2" {
-		 			if ($action==0){
-						$code = "";
-		 			}
-		 			else {
-						$code = "";
-		 			}
-		 		}
-		 		case "C3" {
-		 			if ($action==0){
-						$code = "";
-		 			}
-		 			else {
-						$code = "";
-		 			}
-		 		}
-		 		
-		 	}
-		 	}
-		 else{
-		 	     die("Unknown device, check your config.\n");
-		 	
-		 	}
-		 }
-        #printf ("Code: ".$code."\n");
-         
-		$RFCMD_OPTIONS = "$code";
+				$offcode = $codes[$k][2];
+				$oncode = $codes[$k][3];
+				#printf("$k - Match! - $offcode - $oncode\n");
+			}  #/if
+		} #/for
+		    #printf ("Codes: ".$offcode."-".$oncode."\n");
+		    if ($action == 1) {
+		    	$RFCMD_OPTIONS = "$oncode";
+		    }
+		    elsif ($action == 0) {
+		    	$RFCMD_OPTIONS = "$offcode";
+		    }
+		    else {
+		    	return
+		    }
+			#printf ("Options: ".$RFCMD_OPTIONS."\n");	    
 		
-		#printf ("Options: ".$RFCMD_OPTIONS."\n");
-		
-    }   
+	} # end elsif	 	
+       
     else {
-	die("$PROGRAM_NAME: Device $device_id has an unknown protocol. Only NEXA, WAVEMAN, SARTANO, RPICS and RPICS-E allowed.\n");
+		die("$PROGRAM_NAME: Device $device_id has an unknown protocol. Only NEXA, WAVEMAN, SARTANO, RPICSN and RPICSE allowed.\n");
     }
-
 
     # Action = 1 means turn device on, 0 turn device off
     if ($action == 1) {
-	# Only turn the device on if it is not already turned on to avoid flashing dimmers.
-	# and check that it is not disabled by on/off time set to -1 in the config file
-	# printf("Run: ".$RFCMD."-".$RFCMD_OPTIONS."\n");
-	if ($device_cfg[$device_id][22] == 0  && $device_cfg[$device_id][23] != -1) {
-	    printf("$PROGRAM_NAME: Time is $current_time. Switching on $device_cfg[$device_id][0] device $device_cfg[$device_id][1]$device_cfg[$device_id][2].\n");
-	    printf("$rfsend $RFCMD_OPTIONS\n");
-	    if ($simulate == $NO) {
-		`$rfsend $RFCMD_OPTIONS 1`;
-	    }
-	    $device_cfg[$device_id][22] = 1;
-
-	    return;
-	}
-	else {
-	    return;
-	}
-    }
+		# Only turn the device on if it is not already turned on to avoid flashing dimmers.
+		# and check that it is not disabled by on/off time set to -1 in the config file
+		 printf("Run: ".$rfsend." ".$RFCMD_OPTIONS." $action\n");
+		if ($device_cfg[$device_id][22] == 0  && $device_cfg[$device_id][23] != -1) {
+		    printf("$PROGRAM_NAME: Time is $current_time. Switching on $device_cfg[$device_id][0] device $device_cfg[$device_id][1]$device_cfg[$device_id][2].\n");
+		    printf("$rfsend $RFCMD_OPTIONS\n");
+		    if ($simulate == $NO) {
+				`$rfsend $RFCMD_OPTIONS 1`;
+		    }
+		    $device_cfg[$device_id][22] = 1;
+		    return;
+		}
+		#else {
+	    #	return;
+		}  
     elsif ($action == 0) {
-	if ($device_cfg[$device_id][22] == 1  && $device_cfg[$device_id][24] != -1) {
-	    printf("$PROGRAM_NAME: Time is $current_time. Switching off $device_cfg[$device_id][0] device $device_cfg[$device_id][1]$device_cfg[$device_id][2].\n");
-	    if ($simulate == $NO) {
-		`$rfsend $RFCMD_OPTIONS 0`;
-	    }
-	    $device_cfg[$device_id][22] = 0;
-
-	    return;
+    		 printf("Run: ".$rfsend." ".$RFCMD_OPTIONS." $action\n");
+    
+		if ($device_cfg[$device_id][22] == 1  && $device_cfg[$device_id][24] != -1) {
+	    	printf("$PROGRAM_NAME: Time is $current_time. Switching off $device_cfg[$device_id][0] device $device_cfg[$device_id][1]$device_cfg[$device_id][2].\n");
+	    	if ($simulate == $NO) {
+				`$rfsend $RFCMD_OPTIONS 0`;
+	    	}
+	    	$device_cfg[$device_id][22] = 0;
+	    	return;
+		}
 	}
 	else {
 	    return;
 	}
-    }
+    
 
     return;
 }
@@ -684,11 +480,8 @@ sub read_codes
 	    $codes[$j][3] = $inrad[3]; 	 	       
 	    $j++;    
 	}
-	printf("Example code: $codes[0][0]-$codes[0][1]-$codes[0][2]-$codes[0][3]\n");
+	#printf("Example code: $codes[4][0]-$codes[4][1]-$codes[4][2]-$codes[4][3]\n");
 	printf("No of codes: $j\n");
-	
-
-	
 	close(CFG_FILE);
     return $j;
 }
