@@ -2,9 +2,8 @@
 # This version adds support for Raspberry Pi as a transmitter, hardware as of http://www.homautomation.org/2014/03/02/433mhtz-rf-communication-between-arduino-and-raspberry-pi-arduino-as-receiver/
 
 # Original code supports controlling NEXA, WAVEMAN and SARTANO devices via a Tellstick USB-dongle.
-# Here we add support for the protocol "RPICS" which sends Nexa codes. Also supports RPICSE which sends Everflourish codes.  
+# Here we add support for the protocol "RPICSN" which sends Nexa codes. Also supports RPICSE which sends Everflourish codes.  
 # my $CODESEND=""; = Path to the codesend command
-
 
 # TODO: Support for Waveman + Risingsun
 
@@ -26,6 +25,7 @@ my $CODESEND="/usr/local/bin/codesend";
 my $rfsend;
 my $TELLSTICK_DEVICE = "/dev/tellstick";
 my $CONFIG_FILE = "/etc/tellstickd.conf";
+my $CSCODES="cscodes.conf";
 my $LOG_FILE = "/var/log/tellstickd";
 my $pidFile = '/var/run/tellstickd.pid';
 
@@ -33,8 +33,8 @@ my $pidFile = '/var/run/tellstickd.pid';
 # You should not need to go beyond this point (unless you have found a bug or need to improve the functionality).
 
 # Nexa codes
-my $c2on = 1064981;
-my $c2off = 1064980;
+#my $c2on = 1064981;
+#my $c2off = 1064980;
 
 my @months = qw(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec);
 my @weekDays = qw(Sun Mon Tue Wed Thu Fri Sat Sun);
@@ -47,6 +47,8 @@ my $simulate = $NO;
 my $n_rfcmd_calls;
 my $current_time;
 my $number_of_rules;
+my $number_of_codes;
+my @codes;
 my $Day;
 my $Month;
 my $Year;
@@ -60,9 +62,12 @@ my $daylightSavings;
 my $dayOfYear;
 my $dayOfWeek;
 my $dayOfMonth;
+my $j = 0;
 
 my $PROGRAM_NAME = "tellstickd";
 my $VERSION = "0.6.3";
+
+
 
 # Structure of the configurations to be read;
 # $device_cfg[$i][0];   # Protocol, only NEXA, WAVEMAN and SARTANO supported so far by rfcmd
@@ -181,9 +186,32 @@ sub rfcmd_exec {
 	    $rfsend = $RFCMD; 
 	    $RFCMD_OPTIONS = "$TELLSTICK_DEVICE $device_cfg[$device_id][0] $device_cfg[$device_id][1] $device_cfg[$device_id][2]";
 	    }
-    elsif ($device_cfg[$device_id][0] eq "RPICS") {
-    	# Nexa with codesend
+    elsif ($device_cfg[$device_id][0] eq "RPICSN" || $device_cfg[$device_id][0] eq "RPICSE") {
+    	# Nexa/Ever with codesend
+    	printf ("RPICSx: $device_cfg[$device_id][0]\n");
         $rfsend = $CODESEND; 
+        
+        
+        # Find code to use
+       	# Find code in codelist
+		my $tempcode ="";
+		for (my $k=0; $k <= $j; $k++) {
+			my $test = $codes[$k][0] . " " . $codes[$k][1];
+			#printf("$test - test!\n");
+			#printf("Device: $device_cfg[$device_id][0] $device_cfg[$device_id][1]");
+			
+			my $currentdev = $device_cfg[$device_id][0]. " " . $device_cfg[$device_id][1];
+			#printf("Current dev: $currentdev\n");
+			
+			if ($test eq "$device_cfg[$device_id][0] $device_cfg[$device_id][1]") {
+				$tempcode = $codes[$k][2];
+				#printf("$k - Match!\n");
+			}
+		}
+		#printf("Tempcode: $tempcode\n");
+	
+	
+        
 		 use Switch;
 		 switch ($device_cfg[$device_id][1]) {
 		 	case "A1" {
@@ -308,6 +336,7 @@ sub rfcmd_exec {
 		 	}
 		 elsif ($device_cfg[$device_id][0] eq "RPICSE") {
     		# Everflourish with codesend
+    		printf ("Everflourish\n");
         	$rfsend = $CODESEND; 
 		 	use Switch;
 		 	switch ($device_cfg[$device_id][1]) {
@@ -632,6 +661,38 @@ sub get_config_log_file_param
     return $NO;
 }
 
+sub read_codes
+{
+    my $input_file = $_[0];
+    my @inrad;
+    printf("$PROGRAM_NAME: Reading configuration file $CSCODES...\n");
+    open(CFG_FILE, "<$input_file") or die "$PROGRAM_NAME: Could not access config file: $CSCODES\n";
+    printf("Code file: $CSCODES\n");
+    my $code_conf_row = 0;
+    while ($_ = <CFG_FILE>) {
+    	#printf("J: $j");
+		$code_conf_row++;
+		if ($_ =~ /^[\#|\s|\n]/) {
+		    # skip lines beginning with # or space or just a new line
+		    next;
+		}
+		chomp($_);
+	    @inrad = split /\s+/, $_;
+	    $codes[$j][0] = $inrad[0]; 
+	    $codes[$j][1] = $inrad[1]; 
+	    $codes[$j][2] = $inrad[2]; 	 
+	    $codes[$j][3] = $inrad[3]; 	 	       
+	    $j++;    
+	}
+	printf("Example code: $codes[0][0]-$codes[0][1]-$codes[0][2]-$codes[0][3]\n");
+	printf("No of codes: $j\n");
+	
+
+	
+	close(CFG_FILE);
+    return $j;
+}
+
 sub read_config
 {
     my $input_file = $_[0];
@@ -646,14 +707,14 @@ sub read_config
     my $i = 0;
     my $conf_row = 0;
     while ($_ = <CFG_FILE>) {
-	$conf_row++;
-	if ($_ =~ /^[\#|\s|\n]/) {
-	    # skip lines beginning with # or space or just a new line
-	    next;
-	}
+		$conf_row++;
+		if ($_ =~ /^[\#|\s|\n]/) {
+		    # skip lines beginning with # or space or just a new line
+		    next;
+		}
 
 
-	if ($_ =~ /^[NEXA|WAVEMAN|SARTANO|RPICS]/ ) {
+	if ($_ =~ /^[NEXA|WAVEMAN|SARTANO|RPICSN|RPICSE]/ ) {
 	    chomp($_);
 
 	    @inrad = split /\s+/, $_;
@@ -666,7 +727,7 @@ sub read_config
 	    if ($device_cfg[$i][0] eq "SARTANO") {
 		$device_cfg[$i][2] = "";
 	    }
-	    elsif ($device_cfg[$i][0] eq "RPICS") {
+	    elsif ($device_cfg[$i][0] eq "RPICSN" || $device_cfg[$i][0] eq "RPICSE") {
 		$device_cfg[$i][1] = $inrad[1];
 	    }
 	    elsif ($device_cfg[$i][0] eq "NEXA" || $device_cfg[$i][0] eq "WAVEMAN") {
@@ -679,7 +740,7 @@ sub read_config
 		$device_cfg[$i][2] = $channel;
 	    }
 	    else {
-		die("$PROGRAM_NAME: Unsupported protcol: $device_cfg[$i][0]. Only NEXA, WAVEMAN or SARTANO allowed.\n");
+		die("$PROGRAM_NAME: Unsupported protcol: $device_cfg[$i][0]. Only NEXA, WAVEMAN, SARTANO, RPICSN and RPICSE allowed.\n");
 	    }
 
 
@@ -967,6 +1028,9 @@ if (!$LOG_FILE && $make_daemon) {
 }
 # Read the configuration file
 $number_of_rules = read_config($conf_file);
+
+# Read codesend codes from config file
+$number_of_codes = read_codes($CSCODES);
 
 if ($number_of_rules < 1) {
     die("$PROGRAM_NAME: Configuration file has no devices to control, exiting.\n");
