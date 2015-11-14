@@ -1,5 +1,7 @@
 <?php
 header('Content-Type: text/xml');
+echo "<?xml version=\"1.0\" ?>";
+
 /*
 Used to send commands via codesend (from 433Utils) from the web.
 Use a Url like <IP address?code=nnnnn
@@ -23,7 +25,6 @@ if ($cmdlen==0) {
 }
 
 //Print result
-echo "<?xml version=\"1.0\" ?>";
 echo "<command><result>$codesend_cmd</result>";
 echo "</command>";
 
