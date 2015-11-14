@@ -24,8 +24,8 @@ if ($cmdlen==0) {
 }
 
 //Print result
-echo "<command><result>$codesend_cmd</result>";
-echo "</command>";
+//echo "<command><result>$codesend_cmd</result>";
+//echo "</command>";
 
 //Get values
 $code = $_GET['code'];
