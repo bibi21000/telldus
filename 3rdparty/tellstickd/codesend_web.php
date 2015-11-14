@@ -39,8 +39,10 @@ if ($codelen==0) {
 $command = "'$codesend_cmd $code'";
 
 //Run command, result in $output
+$output = shell_exec('$codesend_cmd '.$code);
+
 // $page = shell_exec('/tmp/my_script.php "{$my_url}" "{$my_refer}"');
-$output=shell_exec($command." 2>&1");
+//$output=shell_exec($command." 2>&1");
 //$output=shell_exec($command." 2>&1"); 
 //$output="Command sent";
 
