@@ -36,16 +36,7 @@ if ($codelen==0) {
         exit;
 }
 
-//Check values
-if ($code == "null") {
-        $output = "No code!";
-        echo "<command><result>$output</result>";
-        echo "</command>";
-        exit;
-}
-
-//rfcmd DEVICE PROTOCOL [PROTOCOL_ARGUMENTS]
-$command = "rfcmd /dev/$port $proto $house $channel $onoffnum";
+$command = "$codesend_cmd $code";
 
 //Run command, result in $output
 $output=shell_exec($command." 2>&1"); 
