@@ -36,7 +36,7 @@ if ($codelen==0) {
         exit;
 }
 
-$command = "$codesend_cmd $code";
+$command = "'$codesend_cmd $code'";
 
 //Run command, result in $output
 // $page = shell_exec('/tmp/my_script.php "{$my_url}" "{$my_refer}"');
