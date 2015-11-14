@@ -14,7 +14,7 @@ $output=shell_exec($command." 2>&1");
 // Something like "codesend: /usr/local/bin/codesend"
 // Split
 $pieces = explode(" ", $output);
-$codesend_cmd=$pieces[1];
+$codesend_cmd=trim($pieces[1]);
 $cmdlen = strlen($codesend_cmd);
 
 if ($cmdlen==0) {
@@ -36,7 +36,7 @@ if ($codelen==0) {
         exit;
 }
 
-$command = "'$codesend_cmd $code'";
+//$command = "'$codesend_cmd $code'";
 //$command = "rfcmd /dev/$port $proto $house $channel $onoffnum";
 $command = "$codesend_cmd $code";
 
