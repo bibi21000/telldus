@@ -15,7 +15,7 @@ $pieces = explode(" ", $output);
 $codesend_cmd=$pieces[1];
 $cmdlen = strlen($codesend_cmd);
 
-if ($cmdlen==0) {
+if ($cmdlen=0) {
         // Codesend not found
         echo "<?xml version=\"1.0\" ?>";
         echo "Error, install codesend from 433Utils."
