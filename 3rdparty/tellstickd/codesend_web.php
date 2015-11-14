@@ -6,7 +6,7 @@ Use a Url like <IP address?code=nnnnn
 Code taken from cscodes.conf
 */
 // Find codesend executable
-$command = "whereis codesends";
+$command = "whereis codesend";
 //Run command, result in $output
 $output=shell_exec($command." 2>&1");
 // Something like "codesend: /usr/local/bin/codesend"
@@ -26,10 +26,16 @@ if ($cmdlen==0) {
 echo "<?xml version=\"1.0\" ?>";
 echo "<command><result>$codesend_cmd</result>";
 echo "</command>";
-exit;
 
 //Get values
 $code = $_GET['code'];
+$codelen = strlen($code);
+if ($codelen==0) {
+        // Code not found
+        echo "<?xml version=\"1.0\" ?>";
+        echo "<command><result>Error, no code given.</result></command>";
+        exit;
+}
 
 //Check values
 if ($code == "null") {
