@@ -43,7 +43,6 @@ $output=shell_exec($command." 2>&1");
 $output="Command sent";
 
 //Return result
-echo "<?xml version=\"1.0\" ?>";
 echo "<command><result>$output. ($command)</result>";
 echo "</command>";
 ?>
