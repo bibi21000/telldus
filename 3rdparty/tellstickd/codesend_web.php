@@ -36,7 +36,7 @@ if ($codelen==0) {
         exit;
 }
 
-$command = "$codesend_cmd $code";
+$command = "'$codesend_cmd $code'";
 
 //Run command, result in $output
 $output=shell_exec($command." 2>&1"); 
