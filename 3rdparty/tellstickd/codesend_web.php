@@ -12,7 +12,7 @@ $output=shell_exec($command." 2>&1");
 // Something like "codesend: /usr/local/bin/codesend"
 // Split
 $pieces = explode(" ", $output);
-$codesend_cmd=pieces[1];
+$codesend_cmd=$pieces[1];
 
 //Print result
 echo "<?xml version=\"1.0\" ?>";
