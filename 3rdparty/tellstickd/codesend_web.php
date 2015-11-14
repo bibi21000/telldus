@@ -40,7 +40,7 @@ $command = "$codesend_cmd $code";
 
 //Run command, result in $output
 $output=shell_exec($command." 2>&1"); 
-$output="Command sent";
+//$output="Command sent";
 
 //Return result
 echo "<command><result>$output. ($command)</result>";
