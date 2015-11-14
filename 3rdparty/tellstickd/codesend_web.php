@@ -1,13 +1,10 @@
-<!--
+<?php
+header('Content-Type: text/xml');
+/*
 Used to send commands via codesend (from 433Utils) from the web.
 Use a Url like <IP address?code=nnnnn
 Code taken from cscodes.conf
-
--->
-
-<?php
-header('Content-Type: text/xml');
-
+*/
 // Find codesend executable
 $command = "whereis codesend";
 //Run command, result in $output
