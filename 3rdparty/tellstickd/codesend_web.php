@@ -8,10 +8,15 @@ Code taken from cscodes.conf
 // Find codesend executable
 $command = "whereis codesend";
 //Run command, result in $output
-$output=shell_exec($command." 2>&1"); 
+$output=shell_exec($command." 2>&1");
+// Something like "codesend: /usr/local/bin/codesend"
+// Split
+$pieces = explode(" ", $output);
+$codesend_cmd=pieces[1];
+
 //Print result
 echo "<?xml version=\"1.0\" ?>";
-echo "<command><result>$output. ($command)</result>";
+echo "<command><result>$codesend_cmd</result>";
 echo "</command>";
 exit;
 
