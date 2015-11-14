@@ -13,14 +13,14 @@ $output=shell_exec($command." 2>&1");
 // Split
 $pieces = explode(" ", $output);
 $codesend_cmd=$pieces[1];
-
+/*
 if (strlen($codesend_cmd)==0) {
         // Codesend not found
         echo "<?xml version=\"1.0\" ?>";
         echo "Error, install codesend from 433Utils."
         exit;
 }
-
+*/
 //Print result
 echo "<?xml version=\"1.0\" ?>";
 echo "<command><result>$codesend_cmd</result>";
