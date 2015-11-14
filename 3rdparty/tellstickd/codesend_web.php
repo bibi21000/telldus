@@ -19,7 +19,6 @@ $cmdlen = strlen($codesend_cmd);
 
 if ($cmdlen==0) {
         // Codesend not found
-        echo "<?xml version=\"1.0\" ?>";
         echo "<command><result>Error, install codesend from 433Utils.</result></command>";
         exit;
 }
@@ -33,7 +32,6 @@ $code = $_GET['code'];
 $codelen = strlen($code);
 if ($codelen==0) {
         // Code not found
-        echo "<?xml version=\"1.0\" ?>";
         echo "<command><result>Error, no code given.</result></command>";
         exit;
 }
@@ -41,13 +39,10 @@ if ($codelen==0) {
 //Check values
 if ($code == "null") {
         $output = "No code!";
-        echo "<?xml version=\"1.0\" ?>";
         echo "<command><result>$output</result>";
         echo "</command>";
         exit;
 }
-
-
 
 //rfcmd DEVICE PROTOCOL [PROTOCOL_ARGUMENTS]
 $command = "rfcmd /dev/$port $proto $house $channel $onoffnum";
