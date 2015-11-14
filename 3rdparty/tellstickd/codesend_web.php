@@ -6,7 +6,7 @@ Use a Url like <IP address?code=nnnnn
 Code taken from cscodes.conf
 */
 // Find codesend executable
-$command = "whereis codesend";
+$command = "whereis codesends";
 //Run command, result in $output
 $output=shell_exec($command." 2>&1");
 // Something like "codesend: /usr/local/bin/codesend"
