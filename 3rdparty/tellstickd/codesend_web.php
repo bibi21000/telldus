@@ -38,7 +38,8 @@ if ($codelen==0) {
 
 //$command = "'$codesend_cmd $code'";
 //$command = "rfcmd /dev/$port $proto $house $channel $onoffnum";
-$command = "$codesend_cmd $code";
+//$command = "$codesend_cmd $code";
+$command = "codesend $code";
 
 //Run command, result in $output
 //$output = shell_exec('$codesend_cmd '.$code);
