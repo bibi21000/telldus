@@ -66,6 +66,22 @@
 	    $.get('codesend_web.php', 'code=1048596', null, "xml")
 	    $('#status').text('Command sent'); 
 	});
+	$("#btn13").click(function(){
+	    $.get('codesend_web.php', 'code=1064981', null, "xml")
+	    $('#status').text('Command sent'); 
+	});
+	$("#btn14").click(function(){
+	    $.get('codesend_web.php', 'code=1064980', null, "xml")
+	    $('#status').text('Command sent'); 
+	});
+	$("#btn15").click(function(){
+	    $.get('codesend_web.php', 'code=4198421', null, "xml")
+	    $('#status').text('Command sent'); 
+	});
+	$("#btn16").click(function(){
+	    $.get('codesend_web.php', 'code=4198420', null, "xml")
+	    $('#status').text('Command sent'); 
+	});
     }); 
     </script>
 
@@ -87,9 +103,13 @@
 <button id="btn10" class="main">Garden off</button>
 <br>
 <button id="btn11" class="main">Vrum fönster on</button>
-<button id="btn12" class="main">Vrum fönsteroff</button>
+<button id="btn12" class="main">Vrum fönster off</button>
 <br>
-
-
+<button id="btn13" class="main">Hallen on</button>
+<button id="btn14" class="main">Hallen off</button>
+<br>
+<button id="btn15" class="main">Kitchen on</button>
+<button id="btn16" class="main">Kitchen off</button>
+<br>
 </body>
 </html>
