@@ -1,6 +1,6 @@
 <?php
-header('Content-Type: text/xml');
-echo "<?xml version=\"1.0\" ?>";
+//header('Content-Type: text/xml');
+/*echo "<?xml version=\"1.0\" ?>";*/
 
 /*
 Used to send commands via codesend (from 433Utils) from the web.
