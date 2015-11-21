@@ -56,62 +56,107 @@
   	$("#btn2").click(function(){
 	    $.get('codesend_web.php', 'code=1052692', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn3").click(function(){
 	    $.get('codesend_web.php', 'code=5586965', null, "xml")
-	    $('#status').text('Command sent'); 
+	    $('#status').text('Command sent');
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000); 
 	});
 	$("#btn4").click(function(){
 	    $.get('codesend_web.php', 'code=5586964', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn5").click(function(){
 	    $.get('codesend_web.php', 'code=16405', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn6").click(function(){
 	    $.get('codesend_web.php', 'code=16404', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn7").click(function(){
 	    $.get('codesend_web.php', 'code=1381719', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn8").click(function(){
 	    $.get('codesend_web.php', 'code=1381716', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn9").click(function(){
 	    $.get('codesend_web.php', 'code=1394007', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn10").click(function(){
 	    $.get('codesend_web.php', 'code=1394004', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn11").click(function(){
 	    $.get('codesend_web.php', 'code=1048597', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn12").click(function(){
 	    $.get('codesend_web.php', 'code=1048596', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn13").click(function(){
 	    $.get('codesend_web.php', 'code=1064981', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn14").click(function(){
 	    $.get('codesend_web.php', 'code=1064980', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn15").click(function(){
 	    $.get('codesend_web.php', 'code=4198421', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
 	$("#btn16").click(function(){
 	    $.get('codesend_web.php', 'code=4198420', null, "xml")
 	    $('#status').text('Command sent'); 
+	    setTimeout(function(){
+		        $('#status').fadeOut(500);
+		    }, 3000);
 	});
     }); 
     </script>
