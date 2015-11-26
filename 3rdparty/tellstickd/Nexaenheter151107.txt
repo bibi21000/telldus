@@ -1,0 +1,8 @@
+﻿A2 Livingroom low volt net
+B3 Kitchen
+C3 Livingroom
+P2 Outdoor porch
+C1 Livingroom window - urkopplad
+Everflourish A1 “månlampa”
+E A2 Outdoor garden 
+C2 Hallen
