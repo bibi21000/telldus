@@ -47,6 +47,7 @@ my $make_daemon = $NO;
 my $simulate = $NO;
 my $n_rfcmd_calls;
 my $current_time;
+my $current_date;
 my $number_of_rules;
 my $number_of_codes;
 my @codes;
@@ -191,7 +192,10 @@ sub rfcmd_exec {
     	# Nexa/Ever with codesend
     	#printf ("RPICSx: $device_cfg[$device_id][0]\n");
         $rfsend = $CODESEND;       
-        printf ("rfsend=$rfsend\n");
+        #printf ("rfsend=$rfsend\n");
+	
+	printf ("$current_date - $current_time\n");
+	
         # Find code to use
        	# Find code in codelist
 		my $offcode ="";
@@ -221,7 +225,7 @@ sub rfcmd_exec {
 		    else {
 		    	return
 		    }
-			#printf ("Options: ".$RFCMD_OPTIONS."\n");	    
+		#printf ("Options: ".$RFCMD_OPTIONS."\n");	    
 		
 	} # end elsif	 	
        
@@ -233,7 +237,7 @@ sub rfcmd_exec {
     if ($action == 1) {
 		# Only turn the device on if it is not already turned on to avoid flashing dimmers.
 		# and check that it is not disabled by on/off time set to -1 in the config file
-		 printf($current_time.": Run: ".$rfsend." ".$RFCMD_OPTIONS." $action\n");
+		#printf($current_time.": Run: ".$rfsend." ".$RFCMD_OPTIONS." $action\n");
 		if ($device_cfg[$device_id][22] == 0  && $device_cfg[$device_id][23] != -1) {
 		    printf("$PROGRAM_NAME: Time is $current_time. Switching on $device_cfg[$device_id][0] device $device_cfg[$device_id][1]$device_cfg[$device_id][2].\n");
 		    printf("$rfsend $RFCMD_OPTIONS\n");
@@ -247,7 +251,7 @@ sub rfcmd_exec {
 	    #	return;
 		}  
     elsif ($action == 0) {
-    		 printf($current_time.": Run: ".$rfsend." ".$RFCMD_OPTIONS." $action\n");
+    		 #printf($current_time.": Run: ".$rfsend." ".$RFCMD_OPTIONS." $action\n");
     
 		if ($device_cfg[$device_id][22] == 1  && $device_cfg[$device_id][24] != -1) {
 	    	printf("$PROGRAM_NAME: Time is $current_time. Switching off $device_cfg[$device_id][0] device $device_cfg[$device_id][1]$device_cfg[$device_id][2].\n");
@@ -855,6 +859,7 @@ while (1) {
     ($Second, $Minute, $Hour, $Day, $Month, $Year, $WeekDay, $DayOfYear, $IsDST) = localtime();
     $Year += 1900;
     $current_time = sprintf("%02d:%02d", $Hour, $Minute);
+    $current_date = sprintf("%02d%02d%02d", $Year, $Month +1, $Day); 
     $now =  DateTime->now( time_zone => $TIMEZONE);
 
     ###################################################################################################
