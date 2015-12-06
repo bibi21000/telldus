@@ -194,7 +194,7 @@ sub rfcmd_exec {
         $rfsend = $CODESEND;       
         #printf ("rfsend=$rfsend\n");
 	
-	printf ("$current_date - $current_time\n");
+	#printf ("$current_date - $current_time\n");
 	
         # Find code to use
        	# Find code in codelist
