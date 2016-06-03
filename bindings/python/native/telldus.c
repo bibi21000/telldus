@@ -759,6 +759,10 @@ static PyMethodDef telldus_methods[] = {
     {"tdBell", (PyCFunction) telldus_tdBell, METH_VARARGS, "Bell device."},
     {"tdDim", (PyCFunction) telldus_tdDim, METH_VARARGS, "Dim device."},
     {"tdLearn", (PyCFunction) telldus_tdLearn, METH_VARARGS, "Learn device."},
+    {"tdExecute", (PyCFunction) telldus_tdExecute, METH_VARARGS, "Execute a scene action."},
+    {"tdUp", (PyCFunction) telldus_tdUp, METH_VARARGS, "Send 'up' command to device."},
+    {"tdDown", (PyCFunction) telldus_tdDown, METH_VARARGS, "Send 'down' command to device."},
+    {"tdStop", (PyCFunction) telldus_tdStop, METH_VARARGS, "Send 'stop' command to device."},
     {"tdMethods", (PyCFunction) telldus_tdMethods, METH_VARARGS, "Methods comment."},
     {"tdLastSentCommand", (PyCFunction) telldus_tdLastSentCommand, METH_VARARGS, "LastSentCommand comment."},
     {"tdLastSentValue", (PyCFunction) telldus_tdLastSentValue, METH_VARARGS, "LastSentValue comment."},
@@ -799,6 +803,10 @@ inittelldus(void)
     PyObject *TELLSTICK_BELL_GLUE;
     PyObject *TELLSTICK_TOGGLE_GLUE;
     PyObject *TELLSTICK_DIM_GLUE;
+    PyObject *TELLSTICK_EXECUTE_GLUE;
+    PyObject *TELLSTICK_UP_GLUE;
+    PyObject *TELLSTICK_DOWN_GLUE;
+    PyObject *TELLSTICK_STOP_GLUE;
     PyObject *TELLSTICK_LEARN_GLUE;
     PyObject *TELLSTICK_SUCCESS_GLUE;
     PyObject *TELLSTICK_ERROR_NOT_FOUND_GLUE;
@@ -835,6 +843,22 @@ inittelldus(void)
     TELLSTICK_DIM_GLUE = PyLong_FromLong((long) TELLSTICK_DIM);
     PyObject_SetAttrString(module, "TELLSTICK_DIM", TELLSTICK_DIM_GLUE);
     Py_DECREF(TELLSTICK_DIM_GLUE);
+
+    TELLSTICK_EXECUTE_GLUE = PyLong_FromLong((long) TELLSTICK_EXECUTE);
+    PyObject_SetAttrString(module, "TELLSTICK_EXECUTE", TELLSTICK_EXECUTE_GLUE);
+    Py_DECREF(TELLSTICK_EXECUTE_GLUE);
+
+    TELLSTICK_UP_GLUE = PyLong_FromLong((long) TELLSTICK_UP);
+    PyObject_SetAttrString(module, "TELLSTICK_UP", TELLSTICK_UP_GLUE);
+    Py_DECREF(TELLSTICK_UP_GLUE);
+
+    TELLSTICK_DOWN_GLUE = PyLong_FromLong((long) TELLSTICK_DOWN);
+    PyObject_SetAttrString(module, "TELLSTICK_DOWN", TELLSTICK_DOWN_GLUE);
+    Py_DECREF(TELLSTICK_DOWN_GLUE);
+
+    TELLSTICK_STOP_GLUE = PyLong_FromLong((long) TELLSTICK_STOP);
+    PyObject_SetAttrString(module, "TELLSTICK_STOP", TELLSTICK_STOP_GLUE);
+    Py_DECREF(TELLSTICK_STOP_GLUE);
 
     TELLSTICK_LEARN_GLUE = PyLong_FromLong((long) TELLSTICK_LEARN);
     PyObject_SetAttrString(module, "TELLSTICK_LEARN", TELLSTICK_LEARN_GLUE);
