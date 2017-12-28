@@ -109,9 +109,9 @@ if PLATFORM_IS_WINDOWS:
 	except ImportError:
 		class Log:
 			def debug(self, msg, *args):
-				print msg % args
+				print(msg % args)
 			def info(self, msg, *args):
-				print msg % args
+				print(msg % args)
 		log = Log()
 		
 	try:
